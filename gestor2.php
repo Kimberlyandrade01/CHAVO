@@ -82,9 +82,7 @@ $result = $conn->query($sql);
     <div class="sidebar">
         <h2>Clinica Dental</h2>
         <ul>
-        <a href="gestor2.php" target="_blank" class="btn-innovador">Doctor Efrain Reyna Avila</a>   
         <a href="inicio.php" target="_blank" class="btn-innovador">Cerrar Sesion</a>
-        
         </ul>
     </div>
     <div class="main-content">

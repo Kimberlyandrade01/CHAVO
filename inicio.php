@@ -131,7 +131,7 @@
     <footer>
         <div class="footer-info">
             <p>La Clínica Dental está conformada por un grupo de odontólogos especializados en tratamientos correctivos y estéticos, preocupados por el bienestar y la salud de la sociedad mexicana, ofrecemos alternativas con tecnología de punta para garantizar la calidad de nuestro servicio.</p>
-            <p>Dirección: Av. Revolución 797, Colonia Nonoalco, Delegación Benito Juárez, C.P. 03700</p>
+            <p>Blvd. Cucapah 20100-Sur, El Lago, 22210 Tijuana, B.C.</p>
         </div>
         <div class="footer-social">
             <p>Redes sociales</p>

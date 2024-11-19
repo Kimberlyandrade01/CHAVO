@@ -3,9 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservación de Citas</title>
-    <link rel="stylesheet" href="styles.css"> 
-   
-    
+    <title>Contacto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #b3cde0, #e0f7fa); /* Fondo azul claro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333; /* Color de texto oscuro para contraste */
+        }
+
+        .contact-container {
+            background-color: #ffffff; /* Fondo blanco para el contenedor */
+            padding: 2em;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .contact-container h1 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+            color: #007bff; /* Color azul para el encabezado */
+        }
+
+        .contact-container p {
+            font-size: 1.1em;
+            margin-bottom: 1.5em;
+        }
+
+        .contact-info {
+            text-align: left;
+            margin-top: 1em;
+            line-height: 1.8em;
+        }
+
+        .contact-info b {
+            color: #007bff; /* Azul para los títulos */
+        }
+
+        .contact-info a {
+            color: #007bff; /* Enlaces en azul */
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-innovador {
+            display: inline-block;
+            padding: 0.75em 1.5em;
+            background: #007bff; /* Azul para el botón */
+            color: #fff;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 25px;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 1.5em;
+        }
+
+        .btn-innovador:hover {
+            background: #0056b3; /* Azul más oscuro en hover */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
+        }
+    </style>
 </head>
 <body>
+    <div class="contact-container">
+        <h1>Contacto</h1>
+        <p>No dudes en mandarnos un mensaje para pedir información o dudas</p>
+
+        <div class="contact-info">
+            <p><b>Correo Electronico:</b><br>
+            <a href="mailto:efrain.reynaavila@cesunbc.edu.mx">clinicadentaltj@gmail.com</a></p>
+
+            <p><b>Numero Telefonico</b><br>
+            664 733 5196</p>
+
+            <p><b>Direccion:</b><br>
+                Blvd. Cucapah 20100-Sur, El Lago, 22210 Tijuana, B.C.</p>
+        </div>
+
+        <div>
+            <a href="inicio.php" target="_blank" class="btn-innovador">Dar clic Para regresar atras</a>
+        </div>
+    </div>
+</body>
+</html>
