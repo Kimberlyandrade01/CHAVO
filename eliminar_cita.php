@@ -1,6 +1,6 @@
 <?php
 if (isset($_GET['id'])) {
-    $conexion = new mysqli("localhost", "root", "", "tasks_manager");
+    $conexion = new mysqli("localhost", "root", "", "consultorio_dental");
 
     if ($conexion->connect_error) {
         die("Error de conexión: " . $conexion->connect_error);

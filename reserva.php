@@ -11,18 +11,23 @@ if (isset($_POST['submit'])) {
     $servicio = $_POST['servicio'];
     $doctor = $_POST['doctor'];
 
+    // Definir el estado de la cita (por defecto 'pendiente')
+    $estado = 'pendiente';
+
     // Insertar los datos en la base de datos
-    $sql = "INSERT INTO citas (nombre, celular, dia_cita, hora_cita, tipo_cita, doctor) 
-            VALUES (?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO citas (nombre, celular, fecha, hora, id_servicio, id_doctor, estado) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("ssssss", $nombre, $telefono, $fecha, $horario, $servicio, $doctor);
+        // Usar bind_param para asociar las variables con los parámetros de la consulta SQL
+        $stmt->bind_param("sssssss", $nombre, $telefono, $fecha, $horario, $servicio, $doctor, $estado);
+        
         if ($stmt->execute()) {
             $successMessage = "¡Cita reservada exitosamente!";
         } else {
             $errorMessage = "Hubo un error al reservar la cita.";
         }
-    }   
+    }
 }
 ?>
 
@@ -158,34 +163,196 @@ if (isset($_POST['submit'])) {
             margin-bottom: 1rem;
             text-align: left;
         }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        /* Estilo para el menú de navegación */
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #000;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        /* Alineación del menú de navegación a la derecha */
+        nav {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #000;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        /* Alineación del menú de navegación a la derecha */
+        nav {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        .btn-innovador {
+            display: inline-block;
+            padding: 0.75em 1.5em;
+            background: #007bff; /* Azul para el botón */
+            color: #fff;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 25px;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 1.5em;
+        }
+
+        .btn-innovador:hover {
+            background: #0056b3; /* Azul más oscuro en hover */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
+        }
+        .button {
+            background-color: #87CEEB; /* Azul bajo */
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1em;
+            margin: 10px 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .button:hover {
+            background-color: #4682B4; 
+        }
+        #chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+
+        #chat-messages {
+            height: 200px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            padding: 5px;
+            background-color: #f9f9f9;
+        }
+
+        #user-input {
+            width: calc(100% - 20px);
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #send-btn {
+            margin-top: 5px;
+            width: 100%;
+            padding: 5px;
+            background-color: #1E90FF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #send-btn:hover {
+            background-color: #4682B4;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        h1 {
+            margin: 0;
+        }
+
     </style>
 </head>
+<header>
+        <nav>
+            <ul>
+                <a href="inicio.php" target="_blank" class="btn-innovador">inicio</a>
+                <a href="contacto.html" target="_blank" class="btn-innovador">contacto</a>
+                <a href="nosotros.html" target="_blank" class="btn-innovador">Nosotros</a>
+                
+            </ul>
+        </nav>
+    </header>
 <body>
 
 <div class="container">
     <div class="icon-container">📅</div>
     <h2>Reserva tu Cita</h2>
+    <h2>Book your appointment</h2>
 
-    <?php if (isset($_POST['submit'])): ?>
+    <?php if (isset($successMessage)): ?>
         <div class="success">
-            <p>¡Cita reservada exitosamente para <?php echo htmlspecialchars($_POST['nombre']); ?>!</p>
-            <p>Fecha: <?php echo htmlspecialchars($_POST['fecha']); ?></p>
-            <p>Horario: <?php echo htmlspecialchars($_POST['horario']); ?></p>
+            <p>¡Cita reservada exitosamente para <?php echo htmlspecialchars($nombre); ?>!</p>
+            <p>Fecha: <?php echo htmlspecialchars($fecha); ?></p>
+            <p>Horario: <?php echo htmlspecialchars($horario); ?></p>
             <a href="inicio.php" class="button">Regresar a la Página Principal</a>
         </div>
     <?php else: ?>
 
     <form method="POST" action="">
-        <label for="nombre">Nombre Completo:</label>
+        <label for="nombre">Nombre Completo/Full name :</label>
         <input type="text" name="nombre" id="nombre" required>
 
-        <label for="telefono">Número Telefónico:</label>
+        <label for="telefono">Número Telefónico/ Phone Number:</label>
         <input type="tel" name="telefono" id="telefono" required pattern="[0-9]{10}" placeholder="1234567890">
 
-        <label for="fecha">Fecha de la Cita:</label>
+        <label for="fecha">Fecha de la Cita/Date of Appointment:</label>
         <input type="date" name="fecha" id="fecha" required min="<?php echo date('Y-m-d'); ?>">
 
-        <label for="horario">Horario de la Cita:</label>
+        <label for="horario">Horario de la Cita/Appointment Schedule:</label>
         <select name="horario" id="horario" required>
             <option value="09:00 AM">09:00 AM</option>
             <option value="10:00 AM">10:00 AM</option>
@@ -197,15 +364,15 @@ if (isset($_POST['submit'])) {
             <option value="04:00 PM">04:00 PM</option>
         </select>
 
-        <label for="servicio">Tipo de Servicio:</label>
+        <label for="servicio">Tipo de Servicio/Type of service:</label>
         <select name="servicio" id="servicio" required>
-            <option value="Odontología General">Odontología General</option>
-            <option value="Odontología Preventiva">Odontología Preventiva</option>
-            <option value="Odontología Estética">Odontología Estética</option>
-            <option value="Ortodoncia">Ortodoncia</option>
+            <option value="Odontología General">Odontología General/Dentistry Genera</option>
+            <option value="Odontología Preventiva">Odontología Preventiva/Preventive Dentistry</option>
+            <option value="Odontología Estética">Odontología Estética/Aesthetic Dentistry</option>
+            <option value="Ortodoncia">Ortodoncia/Orthodontics</option>
         </select>
 
-        <label for="doctor">Selecciona el Doctor:</label>
+        <label for="doctor">Selecciona el Doctor/Select the doctor:</label>
         <select name="doctor" id="doctor" required>
             <option value="Efrain Reyna Avila">Efrain Reyna Avila</option>
             <option value="Kimberly Cervantes">Kimberly Cervantes</option>
@@ -214,7 +381,7 @@ if (isset($_POST['submit'])) {
         </select>
 
         <button type="submit" name="submit" class="btn-primary">Reservar Cita</button>
-        <a href="inicio.php" class="btn-secondary">Regresar a la Página Principal</a>
+        
     </form>
 
     <?php endif; ?>
@@ -222,4 +389,3 @@ if (isset($_POST['submit'])) {
 
 </body>
 </html>
-

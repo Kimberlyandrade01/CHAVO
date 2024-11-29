@@ -75,27 +75,82 @@
             transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
         }
+
+        /* Estilos para botones de idioma */
+        .language-btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            color: #007bff;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .language-btn:hover {
+            background-color: #007bff;
+            color: white;
+        }
     </style>
 </head>
 <body>
+
+    <!-- Botones de cambio de idioma -->
+    <div style="position: fixed; top: 100px; right: 100px;">
+        <button class="language-btn" onclick="switchToSpanish()">Español</button>
+        <button class="language-btn" onclick="switchToEnglish()">English</button>
+        <a href="inicio.php" target="_blank" class="btn-innovador">inicio</a>
+                <a href="reserva.php" target="_blank" class="btn-innovador">Reservar Ahora</a>
+                <a href="nosotros.html" target="_blank" class="btn-innovador">Nosotros</a>
+    </div>
+
+    <header>
+        <nav>
+            <ul>
+             
+            </ul>
+        </nav>
+    </header>
+
     <div class="contact-container">
-        <h1>Contacto</h1>
-        <p>No dudes en mandarnos un mensaje para pedir información o dudas</p>
+        <h1 id="contact-title">Contacto</h1>
+        <p id="contact-desc">No dudes en mandarnos un mensaje para pedir información o dudas</p>
 
         <div class="contact-info">
-            <p><b>Correo Electronico:</b><br>
+            <p><b id="email-label">Correo Electronico:</b><br>
             <a href="mailto:efrain.reynaavila@cesunbc.edu.mx">clinicadentaltj@gmail.com</a></p>
 
-            <p><b>Numero Telefonico</b><br>
+            <p><b id="phone-label">Numero Telefonico</b><br>
             664 733 5196</p>
 
-            <p><b>Direccion:</b><br>
+            <p><b id="address-label">Direccion:</b><br>
                 Blvd. Cucapah 20100-Sur, El Lago, 22210 Tijuana, B.C.</p>
         </div>
 
         <div>
-            <a href="inicio.php" target="_blank" class="btn-innovador">Dar clic Para regresar atras</a>
+            <!-- Aquí puedes agregar más contenido si lo deseas -->
         </div>
     </div>
+
+    <script>
+        function switchToSpanish() {
+            document.getElementById('contact-title').textContent = 'Contacto';
+            document.getElementById('contact-desc').textContent = 'No dudes en mandarnos un mensaje para pedir información o dudas';
+            document.getElementById('email-label').textContent = 'Correo Electronico:';
+            document.getElementById('phone-label').textContent = 'Numero Telefonico';
+            document.getElementById('address-label').textContent = 'Direccion:';
+        }
+
+        function switchToEnglish() {
+            document.getElementById('contact-title').textContent = 'Contact';
+            document.getElementById('contact-desc').textContent = 'Feel free to send us a message for information or inquiries';
+            document.getElementById('email-label').textContent = 'Email Address:';
+            document.getElementById('phone-label').textContent = 'Phone Number';
+            document.getElementById('address-label').textContent = 'Address:';
+        }
+    </script>
+
 </body>
 </html>

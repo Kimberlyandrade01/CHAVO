@@ -4,24 +4,24 @@ include 'includes/db.php'; // Incluir la conexión a la base de datos
 
 // Verificar si el formulario fue enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Consulta para buscar al usuario en la base de datos
-    $stmt = $conn->prepare("SELECT id, username, password FROM users WHERE username = ?");
-    $stmt->bind_param("s", $username);
+    // Consulta para buscar al paciente en la base de datos
+    $stmt = $conn->prepare("SELECT ID_Paciente, nombre, apellido, email, password FROM pacientes WHERE email = ?");
+    $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Si se encontró el usuario
+    // Si se encontró el paciente
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();
         
         // Verificar la contraseña
         if (password_verify($password, $user['password'])) {
-            // Crear la sesión y redirigir al task_manager.php
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
+            // Crear la sesión y redirigir al gestor.php
+            $_SESSION['user_id'] = $user['ID_Paciente'];
+            $_SESSION['username'] = $user['nombre'];  // Puedes usar 'nombre' o 'apellido' o ambos
             header("Location: gestor.php");
             exit();
         } else {
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h2>Bienvenido</h2>
         <form action="login.php" method="POST">
             <div class="mb-3">
-                <input type="text" class="form-control" id="username" name="username" placeholder="Usuario" required>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Correo Electrónico" required>
             </div>
             <div class="mb-3">
                 <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>

@@ -1,5 +1,5 @@
 <?php
-$conexion = new mysqli("localhost", "root", "", "tasks_manager");
+$conexion = new mysqli("localhost", "root", "", "consultorio_dental");
 
 if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
@@ -10,9 +10,9 @@ if (isset($_POST['id'])) {
     $id = $_POST['id'];
     $nombre = $_POST['nombre'];
     $celular = $_POST['celular'];
-    $tipo_cita = $_POST['tipo_cita'];
-    $doctor = $_POST['doctor'];
-    $hora_cita = $_POST['hora_cita'];
+    $tipo_cita = $_POST['id_servicio'];
+    $doctor = $_POST['id_doctor'];
+    $hora_cita = $_POST['hora'];
     $dia_cita = $_POST['dia_cita'];
 
     $sql = "UPDATE citas SET nombre = ?, celular = ?, tipo_cita = ?, doctor = ?, hora_cita = ?, dia_cita = ? WHERE id = ?";
@@ -20,7 +20,7 @@ if (isset($_POST['id'])) {
     $stmt->bind_param("ssssssi", $nombre, $celular, $tipo_cita, $doctor, $hora_cita, $dia_cita, $id);
 
     if ($stmt->execute()) {
-        header("Location: index.php");
+        header("Location: gestor.php");
         exit;
     } else {
         echo "Error al actualizar la cita";
@@ -58,13 +58,13 @@ $conexion->close();
         <label>Celular:</label>
         <input type="text" name="celular" value="<?php echo htmlspecialchars($cita['celular']); ?>" required><br>
         <label>Tipo de Cita:</label>
-        <input type="text" name="tipo_cita" value="<?php echo htmlspecialchars($cita['tipo_cita']); ?>" required><br>
+        <input type="text" name="tipo_cita" value="<?php echo htmlspecialchars($cita['id_servicio']); ?>" required><br>
         <label>Doctor:</label>
-        <input type="text" name="doctor" value="<?php echo htmlspecialchars($cita['doctor']); ?>" required><br>
+        <input type="text" name="doctor" value="<?php echo htmlspecialchars($cita['id_doctor']); ?>" required><br>
         <label>Hora de la Cita:</label>
-        <input type="time" name="hora_cita" value="<?php echo htmlspecialchars($cita['hora_cita']); ?>" required><br>
+        <input type="time" name="hora_cita" value="<?php echo htmlspecialchars($cita['hora']); ?>" required><br>
         <label>Día de la Cita:</label>
-        <input type="date" name="dia_cita" value="<?php echo htmlspecialchars($cita['dia_cita']); ?>" required><br>
+        <input type="date" name="dia_cita" value="<?php echo htmlspecialchars($cita['fecha']); ?>" required><br>
         <button type="submit">Guardar Cambios</button>
     </form>
     <button onclick="window.location.href='index.php'">Cancelar</button>

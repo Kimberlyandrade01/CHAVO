@@ -9,12 +9,12 @@ header("Content-Type: application/json");
 $data = json_decode(file_get_contents("php://input"), true);
 print_r($data); // Agrega esta línea para verificar los datos recibidos
 
-
 // Validar que todos los campos estén completos
-if (isset($data['name'], $data['email'], $data['phone'], $data['password'])) {
-    $name = $data['name'];
+if (isset($data['nombre'], $data['apellido'], $data['telefono'], $data['email'], $data['password'])) {
+    $nombre = $data['nombre'];
+    $apellido = $data['apellido'];
+    $telefono = $data['telefono'];
     $email = $data['email'];
-    $phone = $data['phone'];
     $password = password_hash($data['password'], PASSWORD_BCRYPT); // Cifrado de la contraseña
 
     // Verificar si el correo ya existe
@@ -27,8 +27,8 @@ if (isset($data['name'], $data['email'], $data['phone'], $data['password'])) {
     }
 
     // Insertar el nuevo usuario en la base de datos
-    $stmt = $pdo->prepare("INSERT INTO users (name, email, phone, password) VALUES (?, ?, ?, ?)");
-    if ($stmt->execute([$name, $email, $phone, $password])) {
+    $stmt = $pdo->prepare("INSERT INTO users (nombre, apellido, telefono, email, password) VALUES (?, ?, ?, ?, ?)");
+    if ($stmt->execute([$nombre, $apellido, $telefono, $email, $password])) {
         // Respuesta de éxito en el registro
         echo json_encode(["message" => "Registro exitoso"]);
     } else {
