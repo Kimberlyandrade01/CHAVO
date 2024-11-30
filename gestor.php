@@ -2,42 +2,57 @@
 // Conexión a la base de datos
 include 'includes/db.php';
 
-// Verificar si hay citas en la base de datos
-$sql = "SELECT * FROM citas";
-$result = $conn->query($sql);
+// Obtener el valor de búsqueda (si existe)
+$buscar = isset($_GET['buscar']) ? $_GET['buscar'] : '';
+
+// Consulta para filtrar por doctor si se ingresa un valor en el buscador
+$sql = $buscar 
+    ? "SELECT * FROM citas WHERE id_doctor LIKE ?"
+    : "SELECT * FROM citas";
+
+$stmt = $conn->prepare($sql);
+
+if ($buscar) {
+    $likeBuscar = "%$buscar%";
+    $stmt->bind_param("s", $likeBuscar);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clínica Dental</title>
+    <title>Gestor de Citas - Clínica Dental</title>
     <style>
         /* Estilos generales */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f8f9fa;
         }
 
         /* Barra lateral */
         .sidebar {
-            background: #2c3e50;
+            background: #4682B4;
             color: #fff;
             padding: 20px;
             height: 100vh;
             position: fixed;
             width: 250px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar h2 {
             text-align: center;
             font-size: 24px;
             margin-bottom: 20px;
+            border-bottom: 2px solid #1abc9c;
+            padding-bottom: 10px;
         }
 
         .sidebar ul {
@@ -51,15 +66,16 @@ $result = $conn->query($sql);
             display: block;
             padding: 10px 0;
             text-align: center;
-            border: 1px solid #fff;
+            border: 1px solid transparent;
             margin: 10px 0;
             border-radius: 5px;
             background: #34495e;
-            transition: background 0.3s;
+            transition: background 0.3s, border 0.3s;
         }
 
         .sidebar a:hover {
             background: #1abc9c;
+            border: 1px solid #fff;
         }
 
         /* Contenido principal */
@@ -68,24 +84,13 @@ $result = $conn->query($sql);
             padding: 20px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background: #fff;
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
         }
 
-        table th, table td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        table th {
-            background: #2c3e50;
-            color: #fff;
-        }
-
+        /* Formulario de búsqueda */
         form {
             margin-bottom: 20px;
             display: flex;
@@ -94,18 +99,20 @@ $result = $conn->query($sql);
         }
 
         form input[type="text"] {
-            padding: 8px;
-            border: 1px solid #ddd;
+            padding: 10px;
+            border: 1px solid #ccc;
             border-radius: 5px;
+            width: 300px;
         }
 
         form button {
-            padding: 8px 12px;
-            background: #1abc9c;
+            padding: 10px 20px;
+            background: #4682B4;
             border: none;
             color: #fff;
             border-radius: 5px;
             cursor: pointer;
+            transition: background 0.3s;
         }
 
         form button:hover {
@@ -113,8 +120,64 @@ $result = $conn->query($sql);
         }
 
         form a {
-            color: #2c3e50;
+            color: #1abc9c;
             text-decoration: none;
+        }
+
+        /* Tabla de citas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        table th, table td {
+            padding: 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table th {
+            background: #4682B4;
+            color: #fff;
+        }
+
+        table tr:nth-child(even) {
+            background: #f4f4f4;
+        }
+
+        table tr:hover {
+            background: #e6f7f5;
+        }
+
+        .actions button {
+            padding: 8px 12px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .edit-btn {
+            background: #f39c12;
+            color: #fff;
+        }
+
+        .edit-btn:hover {
+            background: #e67e22;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
         }
     </style>
 </head>
@@ -123,71 +186,70 @@ $result = $conn->query($sql);
     <div class="sidebar">
         <h2>Clínica Dental</h2>
         <ul>
-
-        <a href="inicio.php" target="_blank" class="btn-innovador">Cerrar Sesion</a>
+            <li><a href="inicio.php">Inicio</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+           
         </ul>
     </div>
 
     <!-- Contenido principal -->
     <div class="main-content">
-        <h1>Lista de Citas</h1>
-        
+        <h1>Lista  de Citas</h1>
+
         <!-- Formulario de búsqueda -->
-        <form action="#" method="GET">
-            <label for="buscar">Buscar por Doctor:</label>
-            <input type="text" id="buscar" name="buscar" placeholder="Ejemplo: Carlos Benítez">
+        <form action="gestor.php" method="GET">
+            <input type="text" name="buscar" placeholder="Buscar por Doctor" value="<?php echo htmlspecialchars($buscar); ?>">
             <button type="submit">Buscar</button>
-            <a href="#">Reset</a>
+            <a href="gestor.php">Restablecer</a>
         </form>
-        
+
         <!-- Tabla de citas -->
         <table>
             <thead>
                 <tr>
                     <th>Nombre</th>
                     <th>Celular</th>
-                    <th>Tipo de Cita</th>
+                    <th>Tipo de Servicio</th>
                     <th>Doctor</th>
-                    <th>Hora de la Cita</th>
-                    <th>Día de la Cita</th>
+                    <th>Hora</th>
+                    <th>Fecha</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-            <?php
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        echo "<tr>";
-        echo "<td>" . htmlspecialchars($row['nombre'] ?? 'Sin nombre') . "</td>";
-        echo "<td>" . htmlspecialchars($row['celular'] ?? 'Sin celular') . "</td>";
-        echo "<td>" . htmlspecialchars($row['id_servicio'] ?? 'No especificado') . "</td>";
-        echo "<td>" . htmlspecialchars($row['id_doctor'] ?? 'No asignado') . "</td>";
-        echo "<td>" . htmlspecialchars($row['hora'] ?? 'Hora no definida') . "</td>";
-        echo "<td>" . htmlspecialchars($row['fecha'] ?? 'Día no definido') . "</td>";
-        
-        echo "<td>
-                <button class='edit-btn' onclick='editarCita(" . $row['id'] . ")'>Editar</button>
-                <button class='delete-btn' onclick='eliminarCita(" . $row['id'] . ")'>Eliminar</button>
-             </td>";
-        echo "</tr>";
-    }
-} else {
-    echo "<tr><td colspan='7'>No hay citas registradas</td></tr>";
-}
-?>
-
+                <?php if ($result->num_rows > 0): ?>
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['nombre']); ?></td>
+                            <td><?php echo htmlspecialchars($row['celular']); ?></td>
+                            <td><?php echo htmlspecialchars($row['id_servicio']); ?></td>
+                            <td><?php echo htmlspecialchars($row['id_doctor']); ?></td>
+                            <td><?php echo htmlspecialchars($row['hora']); ?></td>
+                            <td><?php echo htmlspecialchars($row['fecha']); ?></td>
+                            <td class="actions">
+                               
+                                <button class="delete-btn" onclick="eliminarCita(<?php echo $row['id']; ?>)">Eliminar</button>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="7" style="text-align: center;">No se encontraron citas</td>
+                    </tr>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>
 
     <script>
         function editarCita(id) {
-            window.location.href = editar_cita.php?id=${id};
+            window.location.href = `editar_cita.php?id=${id}`;
         }
 
         function eliminarCita(id) {
             if (confirm("¿Estás seguro de que deseas eliminar esta cita?")) {
-                fetch(eliminar_cita.php?id=${id})
+                fetch(`eliminar_cita.php?id=${id}`)
                     .then(response => response.text())
                     .then(data => {
                         if (data === "success") {

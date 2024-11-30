@@ -234,7 +234,7 @@
     <button class="back-to-spanish-btn" onclick="backToSpanish()">Volver al español</button>
 
     <header>
-        <h1 id="header-title">Consultorio Dental</h1>
+        <h1 id="header-title">C</h1>
         <nav>
             <ul>
                 <li><a href="#" class="button" id="btn-login" onclick="openNewTab('login.php')">Iniciar Sesión</a></li>
@@ -354,7 +354,7 @@
             const btnContacto = document.getElementById('btn-contacto');
 
             // Traducción al inglés
-            headerTitle.innerText = 'Dental Clinic';
+            headerTitle.innerText = 'D';
             welcomeMsg.innerText = 'Welcome';
             footerInfo.innerText = 'The Dental Clinic is made up of a group of dentists specialized in corrective and aesthetic treatments, concerned with the well-being and health of Mexican society. We offer cutting-edge technology alternatives to ensure the quality of our service.';
             footerAddress.innerText = 'Blvd. Cucapah 20100-Sur, El Lago, 22210 Tijuana, B.C.';
@@ -383,7 +383,7 @@
             const btnContacto = document.getElementById('btn-contacto');
 
             // Volver al español
-            headerTitle.innerText = 'Consultorio Dental';
+            headerTitle.innerText = 'C';
             welcomeMsg.innerText = 'Bienvenidos';
             footerInfo.innerText = 'La Clínica Dental está conformada por un grupo de odontólogos especializados en tratamientos correctivos y estéticos, preocupados por el bienestar y la salud de la sociedad mexicana, ofrecemos alternativas con tecnología de punta para garantizar la calidad de nuestro servicio.';
             footerAddress.innerText = 'Blvd. Cucapah 20100-Sur, El Lago, 22210 Tijuana, B.C.';

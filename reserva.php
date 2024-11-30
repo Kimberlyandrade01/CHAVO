@@ -319,9 +319,10 @@ if (isset($_POST['submit'])) {
 <header>
         <nav>
             <ul>
-                <a href="inicio.php" target="_blank" class="btn-innovador">inicio</a>
-                <a href="contacto.html" target="_blank" class="btn-innovador">contacto</a>
-                <a href="nosotros.html" target="_blank" class="btn-innovador">Nosotros</a>
+            <li><a href="#" class="button" id="btn-login" onclick="redirectTo('login.php')">Iniciar Sesión</a></li>
+            <li><a href="#" class="button" id="btn-nosotros" onclick="redirectTo('nosotros.html')">Nosotros</a></li>
+            <li><a href="#" class="button" id="btn-reservacion" onclick="redirectTo('reserva.php')">Reservación</a></li>
+            <li><a href="#" class="button" id="btn-contacto" onclick="redirectTo('contacto.html')">Contacto</a></li>
                 
             </ul>
         </nav>
@@ -386,6 +387,12 @@ if (isset($_POST['submit'])) {
 
     <?php endif; ?>
 </div>
+<script>
 
+function redirectTo(url) {
+        // Cambiar la ubicación de la página actual a la URL especificada
+        window.location.href = url;
+    }
+</script>
 </body>
 </html>

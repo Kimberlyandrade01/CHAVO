@@ -238,9 +238,10 @@
 <header>
         <nav>
             <ul>
-                <a href="inicio.php" target="_blank" class="btn-innovador">Inicio</a>
-                <a href="contacto.html" target="_blank" class="btn-innovador">Contact</a>
-                <a href="reserva.php" target="_blank" class="btn-innovador">Reserve Now</a>
+                <li><a href="#" class="button" id="btn-login" onclick="redirectTo('login.php')">login</a></li>
+                <li><a href="#" class="button" id="btn-nosotros" onclick="redirectTo('nosotros.html')">About Us</a></li>
+                <li><a href="#" class="button" id="btn-reservacion" onclick="redirectTo('reserva.php')">Reservation</a></li>
+                <li><a href="#" class="button" id="btn-contacto" onclick="redirectTo('contacto.html')">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -282,4 +283,11 @@
     <a href="inicio.php" class="button">Back to Main Page</a>
 
 </body>
+<script>
+
+function redirectTo(url) {
+        // Cambiar la ubicación de la página actual a la URL especificada
+        window.location.href = url;
+    }
+</script>
 </html>

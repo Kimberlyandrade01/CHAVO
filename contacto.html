@@ -56,25 +56,7 @@
             text-decoration: underline;
         }
 
-        .btn-innovador {
-            display: inline-block;
-            padding: 0.75em 1.5em;
-            background: #007bff; /* Azul para el botón */
-            color: #fff;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-radius: 25px;
-            text-decoration: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            margin-top: 1.5em;
-        }
-
-        .btn-innovador:hover {
-            background: #0056b3; /* Azul más oscuro en hover */
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
-        }
+        
 
         /* Estilos para botones de idioma */
         .language-btn {
@@ -93,6 +75,31 @@
             background-color: #007bff;
             color: white;
         }
+        
+        nav {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+       
+        .button {
+    background-color: #87CEEB; /* Azul bajo */
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    margin: 10px 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+}
+
+.button:hover {
+    background-color: #4682B4;
+}
+        
     </style>
 </head>
 <body>
@@ -101,9 +108,17 @@
     <div style="position: fixed; top: 100px; right: 100px;">
         <button class="language-btn" onclick="switchToSpanish()">Español</button>
         <button class="language-btn" onclick="switchToEnglish()">English</button>
-        <a href="inicio.php" target="_blank" class="btn-innovador">inicio</a>
-                <a href="reserva.php" target="_blank" class="btn-innovador">Reservar Ahora</a>
-                <a href="nosotros.html" target="_blank" class="btn-innovador">Nosotros</a>
+        <div style="position: fixed; top: 100px; right: 100px;">
+            <ul style="display: flex; list-style: none; padding: 0; margin: 0; gap: 10px;">
+                <li><a href="#" class="button" id="btn-login" onclick="redirectTo('login.php')">Iniciar Sesión</a></li>
+                <li><a href="#" class="button" id="btn-nosotros" onclick="redirectTo('nosotros.html')">Nosotros</a></li>
+                <li><a href="#" class="button" id="btn-reservacion" onclick="redirectTo('reserva.php')">Reservación</a></li>
+                <li><a href="#" class="button" id="btn-contacto" onclick="redirectTo('inicio.php')">Inicio</a></li>
+                <button class="language-btn" onclick="switchToSpanish()">Español</button>
+        <button class="language-btn" onclick="switchToEnglish()">English</button>
+            </ul>
+        </div>
+        
     </div>
 
     <header>
@@ -135,6 +150,10 @@
     </div>
 
     <script>
+         function redirectTo(url) {
+        // Cambiar la ubicación de la página actual a la URL especificada
+        window.location.href = url;
+    }
         function switchToSpanish() {
             document.getElementById('contact-title').textContent = 'Contacto';
             document.getElementById('contact-desc').textContent = 'No dudes en mandarnos un mensaje para pedir información o dudas';
